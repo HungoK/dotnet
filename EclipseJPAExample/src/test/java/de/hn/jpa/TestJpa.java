@@ -185,7 +185,7 @@ public class TestJpa extends AbstractTestEntityManager {
 	}
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void persist_projectassignment_true() {
 		em.getTransaction().begin();
 		Project project = new Project();
@@ -203,10 +203,8 @@ public class TestJpa extends AbstractTestEntityManager {
 
 		ProjectAssignment projectAssignment2 = new ProjectAssignment(emp2,
 				project);
-		Date date2 = new Date();
-		date2.setYear(startDate.getYear());
-		date2.setMonth(startDate.getMonth());
-		date2.setDate(startDate.getDate() + 1);
+		Calendar cal = Calendar.getInstance();
+		Date date2 = cal.getTime();
 		projectAssignment2.setStartDate(date2);
 		em.persist(emp);
 		em.persist(project);
