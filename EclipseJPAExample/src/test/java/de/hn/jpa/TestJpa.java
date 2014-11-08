@@ -183,7 +183,7 @@ public class TestJpa extends AbstractTestEntityManager {
 		computer1.setIpaddress("127.0.0.1");
 		this.persist(computer1);
 	}
-
+	
 	@Test
 	//@Ignore
 	public void persist_projectassignment_true() {
