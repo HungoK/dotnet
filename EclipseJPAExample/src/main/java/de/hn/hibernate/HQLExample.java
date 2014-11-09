@@ -328,7 +328,7 @@ public class HQLExample {
 
 		String action = null;
 		if( args.length == 0 ){
-			action = "populate";
+			action = POPULATE;
 		} else {
 			action = args[0];
 		}
