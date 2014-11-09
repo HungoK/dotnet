@@ -15,6 +15,10 @@
 		<class>de.hn.hibernate.Product</class>
 		<class>de.hn.hibernate.Software</class>
 		<class>de.hn.hibernate.Supplier</class>
+		<class>de.hn.hibernate.Medicament</class>
+		<class>de.hn.hibernate.MedicamentHistory</class>
+		<class>de.hn.hibernate.NameMedicament</class>
+		<class>de.hn.hibernate.Abrechnung</class>
 <!-- 		<jar-file>${project.build.outputDirectory}</jar-file>  -->
 		<properties>
 		

@@ -26,7 +26,11 @@ query="select product.price from Product as product where product.price > 25.0",
 
 public class Product implements Serializable
 {
-    private int id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
     private Supplier supplier;
 
     private String name;

@@ -23,18 +23,19 @@ public class HQLExample {
 		displayProductsList(results);
 	}
 
-	public void executeCommentedHQL(Session session) {
+	public List executeCommentedHQL(Session session) {
 		String hql = "from Supplier";
 		Query query = session.createQuery(hql);
 		query.setComment("My HQL: " + hql);
-		query.list();
+		return query.list();
 	}
 
-	public void executeFullyQualifiedHQL(Session session) {
+	public List executeFullyQualifiedHQL(Session session) {
 		Query query = session
 				.createQuery("from de.hn.hibernate.Product");
 		List results = query.list();
 		displayProductsList(results);
+		return results;
 	}
 
 	public void executeProjectionHQL(Session session) {
@@ -51,12 +52,13 @@ public class HQLExample {
 		displayProductsList(results);
 	}
 
-	public void executeNamedParametersHQL(Session session) {
+	public List executeNamedParametersHQL(Session session) {
 		String hql = "from Product where price > :price";
 		Query query = session.createQuery(hql);
 		query.setDouble("price", 25.0);
 		List results = query.list();
 		displayProductsList(results);
+		return results;
 	}
 
 	public void executeObjectNamedParametersHQL(Session session) {
@@ -158,6 +160,7 @@ public class HQLExample {
 		String sql = "select avg(product.price) as avgPrice from Product product";
 
 		SQLQuery query = session.createSQLQuery(sql);
+		
 	//	query.addScalar("avgPrice", Hibernate.DOUBLE);
 		List results = query.list();
 		displayObjectList(results);

@@ -123,6 +123,15 @@ public class TestJpa extends AbstractTestEntityManager {
 	}
 
 	@Test
+	public void testCount() {
+		init();
+		Query selectCountQuery = em.createQuery("SELECT COUNT(project) from Project project");
+		Long count = (Long)selectCountQuery.getSingleResult();
+		Assert.assertEquals(new Long(2L), count);
+	}
+	
+	
+	@Test
 	@Ignore
 	public void testCriteriaSimpleApi() {
 		init();
@@ -144,7 +153,11 @@ public class TestJpa extends AbstractTestEntityManager {
 
 	}
 
+	/**
+	 * 
+	 */
 	@Test
+	@Ignore
 	public void testHibernateCriteriApi() {
 		init();
 
@@ -175,7 +188,6 @@ public class TestJpa extends AbstractTestEntityManager {
 		// em.getTransaction().commit();
 
 	}
-
 	@Test
     @Ignore
 	public void persist_onecomputer_returntrue() {
@@ -185,7 +197,7 @@ public class TestJpa extends AbstractTestEntityManager {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void persist_projectassignment_true() {
 		em.getTransaction().begin();
 		Project project = new Project();
@@ -220,11 +232,12 @@ public class TestJpa extends AbstractTestEntityManager {
 		// time
 		LocalDate localTime = LocalDate.of(2011, Month.DECEMBER, 15); // from
 																		// values
-		ProjectAssignment projectAssignment3 = new ProjectAssignment(emp3,
-				project);
+		
 
 		Date resTime = Date.from(localTime.atStartOfDay()
 				.atZone(ZoneId.systemDefault()).toInstant());
+		ProjectAssignment projectAssignment3 = new ProjectAssignment(emp3,
+				project);
 		projectAssignment3.setStartDate(resTime);
 		ProjectAssignment projectAssignment4 = new ProjectAssignment(emp3,
 				project2);
@@ -249,4 +262,6 @@ public class TestJpa extends AbstractTestEntityManager {
 
 		em.getTransaction().commit();
 	}
+	
+	
 }
