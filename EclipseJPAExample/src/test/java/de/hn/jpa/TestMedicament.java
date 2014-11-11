@@ -60,21 +60,37 @@ public class TestMedicament extends AbstractTestEntityManager {
 		
 	}
 	@Test
+	@Ignore
 	public void testMedicamentHistoryJPA() {
 		
 		initMedicamentHistory();
 		System.out.println("testMedicamentHistoryJPA()");
 		em.getTransaction().begin();
-		String queryname = "Select distinct m from Medicament m , MedicamentHistory h where h.medicament=m and m.nameMedicament.leiter.name in('Bean2') and h.von < :heute and h.bis > :heute ";
+		String queryname = "Select distinct m from Medicament m , MedicamentHistory h where h.medicament=m and m.nameMedicament.leiter.name = :name  and h.von < :heute and h.bis > :heute ";
 		Query medicamentQuery= em.createQuery(queryname);
 		Date heute = getDate(LocalDate.of(2014, Month.JANUARY, 1));
 		medicamentQuery.setParameter("heute", heute);
+		medicamentQuery.setParameter("name", "Bean2");
 	//	medicamentQuery.setParameter("bis", heute);
 		List<Medicament> resultList = medicamentQuery.getResultList();
 		for( Medicament i : resultList) {
 			System.out.println(" lll======== "  + i );
 		}
 		em.getTransaction().commit();
+	}
+	@Test
+	public void testCount() {
+		initMedicamentHistory();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT count(m) FROM Medicament m");
+		Long singleResult = (Long)q.getSingleResult();
+		em.getTransaction().commit();
+		System.out.println("=========");
+		Session session = em.unwrap(org.hibernate.Session.class);
+		Criteria countCriteria = session.createCriteria(Medicament.class);
+		countCriteria.setProjection(Projections.rowCount());
+		List list = countCriteria.list();
+		System.out.println("Criteria= " + list.get(0) + " Namequery " + singleResult);
 	}
 	@Test
 	@Ignore
@@ -89,6 +105,10 @@ public class TestMedicament extends AbstractTestEntityManager {
 		history.add(Restrictions.eqProperty("medicamentAl.id", "medicamentx.id"));
 		Criteria taskCriteria = session.createCriteria(Medicament.class,
 				"medicamentx");
+		Criteria nameMedicament = taskCriteria.createCriteria("nameMedicament","nameMedicament");
+		Criteria leiter = nameMedicament.createCriteria("leiter","leiter");
+		leiter.add(Restrictions.eq("name", "Bean2"));
+	//	taskCriteria.add(arg0)
 		taskCriteria.add(Subqueries.exists(
 				history.setProjection(Projections.id())
 				));
@@ -97,6 +117,15 @@ public class TestMedicament extends AbstractTestEntityManager {
 			System.out.println(" xxxx======== "  + i );
 		}
 		
+		List<Leiter> leiters = leiter.list();
+		System.out.println("====Leiters " + leiters.size() );
+		for( int i = 0; i < leiters.size(); i++){
+			System.out.println(i + "===>"+leiters.get(i) + "===");
+		}
+//		for( Leiter l : leiters) {
+//			System.out.println(" leiter ==> " + l);
+//		}
+//		System.out.println("====Leiters out");
 	}
 	public void initMedicamentHistory() {
 		em.getTransaction().begin();
