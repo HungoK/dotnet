@@ -59,6 +59,15 @@ public class Medicament implements Serializable {
 		this.gruppe = gruppe;
 	}
 
+	
+	public NameMedicament getNameMedicament() {
+		return nameMedicament;
+	}
+
+	public void setNameMedicament(NameMedicament nameMedicament) {
+		this.nameMedicament = nameMedicament;
+	}
+
 	@Override
 	public String toString() {
 		return "Medicament [id=" + id + ", nameMedicament=" + nameMedicament

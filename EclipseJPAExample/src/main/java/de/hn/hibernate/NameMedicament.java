@@ -1,9 +1,11 @@
 package de.hn.hibernate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class NameMedicament {
@@ -12,6 +14,10 @@ public class NameMedicament {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	Long id;
 	String name;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	Leiter leiter;
+	
 	public NameMedicament() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -21,6 +27,15 @@ public class NameMedicament {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	
+	
+	public Leiter getLeiter() {
+		return leiter;
+	}
+	public void setLeiter(Leiter leiter) {
+		this.leiter = leiter;
 	}
 	@Override
 	public String toString() {
