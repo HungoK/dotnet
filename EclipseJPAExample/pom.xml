@@ -12,8 +12,8 @@
 		<!-- <hibernate.version>4.3.5.Final</hibernate.version> -->
 		<hibernatejpa.version>1.0.1.Final</hibernatejpa.version>
 		<!-- maven-compiler-plugin -->
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 		<version.compiler.plugin>2.3.1</version.compiler.plugin>
 	</properties>
 	<dependencies>
