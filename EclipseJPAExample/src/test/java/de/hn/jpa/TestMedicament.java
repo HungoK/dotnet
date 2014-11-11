@@ -93,7 +93,7 @@ public class TestMedicament extends AbstractTestEntityManager {
 		System.out.println("Criteria= " + list.get(0) + " Namequery " + singleResult);
 	}
 	@Test
-	@Ignore
+	//@Ignore
 	public void testMedicamentHistory() {
 		initMedicamentHistory();
 		Session session = em.unwrap(org.hibernate.Session.class);
@@ -108,7 +108,6 @@ public class TestMedicament extends AbstractTestEntityManager {
 		Criteria nameMedicament = taskCriteria.createCriteria("nameMedicament","nameMedicament");
 		Criteria leiter = nameMedicament.createCriteria("leiter","leiter");
 		leiter.add(Restrictions.eq("name", "Bean2"));
-	//	taskCriteria.add(arg0)
 		taskCriteria.add(Subqueries.exists(
 				history.setProjection(Projections.id())
 				));
@@ -120,7 +119,7 @@ public class TestMedicament extends AbstractTestEntityManager {
 		List<Leiter> leiters = leiter.list();
 		System.out.println("====Leiters " + leiters.size() );
 		for( int i = 0; i < leiters.size(); i++){
-			System.out.println(i + "===>"+leiters.get(i) + "===");
+			System.out.println(i + "why not leiter: ===>"+leiters.get(i) + "===");
 		}
 //		for( Leiter l : leiters) {
 //			System.out.println(" leiter ==> " + l);
@@ -128,6 +127,56 @@ public class TestMedicament extends AbstractTestEntityManager {
 //		System.out.println("====Leiters out");
 	}
 	public void initMedicamentHistory() {
+		em.getTransaction().begin();
+		LocalDate timePoint = LocalDate.now();
+		plusMonths_later = timePoint.plusMonths(6L);
+		
+		LocalDate timeDezember = LocalDate.of(2011, Month.DECEMBER, 1); 
+		Leiter leiter1 = FixtureMedicamentBuilder.getBuilder().newLeiter("Bean");
+		Leiter leiter2 = FixtureMedicamentBuilder.getBuilder().newLeiter("Bean2");
+		NameMedicament nameMedicament1 = FixtureMedicamentBuilder.getBuilder().newNameMedicament("Aspirin A", leiter1);
+		NameMedicament nameMedicament2 = FixtureMedicamentBuilder.getBuilder().newNameMedicament("Aspirin B", leiter2);
+		Date von = getDate(LocalDate.of(2012, Month.DECEMBER, 1));
+		Date bis =  getDate( LocalDate.of(2013, Month.JULY, 31));
+		Medicament medicament = new Medicament("name1");
+		MedicamentHistory a1history = FixtureMedicamentBuilder.getBuilder().newMedicamentHistory("a1history", medicament, von, bis);
+		Medicament medicament2 = new Medicament("name2");
+		Date von2 = bis;
+		Date bis2 = getDate( LocalDate.of(2013, Month.DECEMBER, 31));
+		medicament2.getNameMedicament().setLeiter(leiter1);
+		
+		MedicamentHistory a2history = new MedicamentHistory(medicament2, von2, bis2);
+		a2history.setName("a2history");
+		a1history.setLink(a2history);
+		Abrechnung abrechnung = new Abrechnung();
+		abrechnung.setGruppe("abrechnunggruppe1");
+		Abrechnung abrechnung2 = new Abrechnung();
+		abrechnung2.setGruppe("abrechnunggruppe2");
+		abrechnung.setMedicament(medicament);
+		abrechnung2.setMedicament(medicament2);
+		
+		Medicament medicament3 = new Medicament("name3");
+		medicament3.getNameMedicament().setLeiter(leiter2);
+		MedicamentHistory a3history = new MedicamentHistory(medicament3,bis2,
+					getDate( LocalDate.of(2014, Month.MARCH, 1)) );
+		a3history.setName("a3history");
+		a2history.setLink(a3history);
+		
+		em.persist(medicament);
+		em.persist(a1history);
+		em.persist(medicament2);
+		em.persist(a2history);
+		em.persist(abrechnung);
+		em.persist(abrechnung2);
+		em.persist(medicament3);
+		em.persist(a3history);
+		em.persist(leiter1);
+		em.persist(leiter2);
+		em.persist(nameMedicament1);
+		em.persist(nameMedicament2);
+		em.getTransaction().commit();
+	}
+	public void initMedicamentHistoryxx() {
 		em.getTransaction().begin();
 		LocalDate timePoint = LocalDate.now();
 		plusMonths_later = timePoint.plusMonths(6L);

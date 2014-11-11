@@ -88,7 +88,7 @@ public class HQLExample {
 		Product product = (Product) query.uniqueResult();
 		// test for null here if needed
 
-		List results = new ArrayList();
+		List<Product> results = new ArrayList<Product>();
 		results.add(product);
 		displayProductsList(results);
 	}
